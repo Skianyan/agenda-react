@@ -5,7 +5,7 @@ import firebase from "./src/utils/firebase";
 import "firebase/compat/auth";
 
 import Auth from "./src/components/Auth";
-import Logout from "./src/components/Logout";
+import Main from "./src/components/Main";
 
 export default function App() {
 	const [user, setUser] = useState(undefined);
@@ -20,7 +20,7 @@ export default function App() {
 
 	return (
 		<SafeAreaView style={styles.container}>
-			{user ? <Logout /> : <Auth />}
+			{user ? <Main /> : <Auth />}
 		</SafeAreaView>
 	);
 }
