@@ -2,28 +2,29 @@ import { View, Text, Button, TouchableOpacity, StyleSheet } from "react-native";
 import React, { useState } from "react";
 import firebase from "../utils/firebase";
 import UserForm from "./UserForm";
+import UserList from "./UserList";
 
 const Main = () => {
 	const [showForm, setShowForm] = useState(false);
 	const closeSession = () => {
 		firebase.auth().signOut();
 	};
+	const formToggle = () => {
+		showForm == true ? setShowForm(false) : setShowForm(true);
+	};
 
 	return (
 		<View style={styles.mainContainer}>
 			<View style={styles.contactsContainer}>
-				<Text style={styles.text}>Hola</Text>
+				{showForm ? (
+					<UserForm showForm={showForm} setShowForm={setShowForm} />
+				) : (
+					<UserList></UserList>
+				)}
 			</View>
+
 			<View style={styles.buttonContainer}>
-				<>
-					<TouchableOpacity
-						onPress={() => {
-							setShow(!show);
-						}}
-					>
-						<Button title="Add User" />
-					</TouchableOpacity>
-				</>
+				<Button onPress={formToggle} title="Show Form" />
 				<Button onPress={closeSession} title="Logout" />
 			</View>
 		</View>
@@ -38,11 +39,13 @@ const styles = StyleSheet.create({
 		backgroundColor: "black",
 	},
 	contactsContainer: {
-		flex: 1,
+		flex: 14,
 		justifyContent: "center",
 		alignItems: "center",
 	},
 	buttonContainer: {
+		flex: 1,
+		gap: 50,
 		backgroundColor: "#333",
 		paddingVertical: 20,
 		flexDirection: "row",
