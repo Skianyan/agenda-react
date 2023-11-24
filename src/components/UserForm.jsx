@@ -3,6 +3,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import {
 	Button,
+	ScrollView,
 	StyleSheet,
 	Text,
 	TextInput,
@@ -13,7 +14,11 @@ import {
 import { addDoc, collection } from "firebase/firestore";
 import { FIRESTORE_DB } from "../utils/firebase";
 
+import DateTimePicker from "react-native-ui-datepicker";
+import dayjs from "dayjs";
+
 const UserForm = ({ showForm, setShowForm }) => {
+	const [value, setValue] = useState(dayjs());
 	const [users, setUsers] = useState();
 	const [name, setName] = useState();
 	const [phone, setPhone] = useState();
@@ -25,6 +30,7 @@ const UserForm = ({ showForm, setShowForm }) => {
 			name: name,
 			phone: phone,
 			email: email,
+			date: value,
 		});
 		console.log(user);
 	};
@@ -33,7 +39,7 @@ const UserForm = ({ showForm, setShowForm }) => {
 	return (
 		<View style={styles.mainContainer}>
 			<Text style={styles.titleText}>Register User</Text>
-			<>
+			<ScrollView>
 				<Text style={styles.text}>Contact Name</Text>
 				<View>
 					<TextInput
@@ -69,6 +75,14 @@ const UserForm = ({ showForm, setShowForm }) => {
 					autoCapitalize="none"
 					autoCorrect={false}
 				/>
+				<View style={styles.container}>
+					<DateTimePicker
+						value={value}
+						onValueChange={(date) => setValue(date)}
+						mode={"date"}
+						headerTextStyle={(color = "white")}
+					/>
+				</View>
 				<Button onPress={addUser} title="Add User" disabled={name === ""} />
 				<TouchableOpacity
 					style={styles.btn}
@@ -78,7 +92,7 @@ const UserForm = ({ showForm, setShowForm }) => {
 				>
 					<Text style={styles.text}>Return</Text>
 				</TouchableOpacity>
-			</>
+			</ScrollView>
 		</View>
 	);
 };

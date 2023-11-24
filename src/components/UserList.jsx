@@ -1,4 +1,11 @@
-import { Button, StyleSheet, Text, TextInput, View } from "react-native";
+import {
+	Button,
+	ScrollView,
+	StyleSheet,
+	Text,
+	TextInput,
+	View,
+} from "react-native";
 import React, { Component, useEffect, useState } from "react";
 import { FIRESTORE_DB } from "../utils/firebase";
 import { addDoc, collection, onSnapshot } from "firebase/firestore";
@@ -26,12 +33,20 @@ const UserList = () => {
 	return (
 		<View style={styles.container}>
 			<>
-				<Text style={styles.text}>Agria</Text>
-				{users.map((user) => {
-					<Text style={styles.text} key={user.id}>
-						{user.name}
-					</Text>;
-				})}
+				<Text style={styles.titleCont}>Contacts</Text>
+				{users.length > 0 && (
+					<View style={styles.contactsCont}>
+						{users.map((user) => {
+							return (
+								<View style={styles.contactCard} key={user.id}>
+									<Text style={styles.text}>Email: {user.email}</Text>
+									<Text style={styles.text}>Name: {user.name}</Text>
+									<Text style={styles.text}>Phone: {user.phone}</Text>
+								</View>
+							);
+						})}
+					</View>
+				)}
 			</>
 		</View>
 	);
@@ -44,6 +59,26 @@ const styles = StyleSheet.create({
 		alignItems: "center",
 		width: 300,
 		borderRadius: 20,
+	},
+	contactsCont: {
+		flex: 14,
+		backgroundColor: "#222",
+		gap: 10,
+		marginBottom: 25,
+	},
+	titleCont: {
+		flex: 1,
+		color: "white",
+		alignSelf: "center",
+		alignItems: "center",
+		marginTop: 20,
+	},
+	contactCard: {
+		backgroundColor: "#555",
+		flexDirection: "column",
+		color: "white",
+		padding: 10,
+		borderRadius: 15,
 	},
 	text: {
 		color: "white",

@@ -42,6 +42,7 @@ const styles = StyleSheet.create({
 		flex: 14,
 		justifyContent: "center",
 		alignItems: "center",
+		color: "yellow",
 	},
 	buttonContainer: {
 		flex: 1,
