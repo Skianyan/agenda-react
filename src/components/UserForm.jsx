@@ -17,7 +17,7 @@ import { FIRESTORE_DB } from "../utils/firebase";
 import DateTimePicker from "react-native-ui-datepicker";
 import dayjs from "dayjs";
 
-const UserForm = ({ showForm, setShowForm }) => {
+const UserForm = ({ showForm, setShowForm, currentUser }) => {
 	const [value, setValue] = useState(dayjs());
 	const [users, setUsers] = useState();
 	const [name, setName] = useState();
@@ -25,8 +25,9 @@ const UserForm = ({ showForm, setShowForm }) => {
 	const [email, setEmail] = useState();
 
 	useEffect(() => {}, []);
+
 	const addUser = async () => {
-		const user = await addDoc(collection(FIRESTORE_DB, "contactos"), {
+		const user = await addDoc(collection(FIRESTORE_DB, currentUser.uid), {
 			name: name,
 			phone: phone,
 			email: email,
@@ -80,7 +81,6 @@ const UserForm = ({ showForm, setShowForm }) => {
 						value={value}
 						onValueChange={(date) => setValue(date)}
 						mode={"date"}
-						headerTextStyle={(color = "white")}
 					/>
 				</View>
 				<Button onPress={addUser} title="Add User" disabled={name === ""} />

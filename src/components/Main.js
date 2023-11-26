@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import firebase from "../utils/firebase";
 import UserForm from "./UserForm";
 import UserList from "./UserList";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 const Main = () => {
 	const [showForm, setShowForm] = useState(false);
@@ -13,11 +14,26 @@ const Main = () => {
 		showForm == true ? setShowForm(false) : setShowForm(true);
 	};
 
+	const auth = getAuth();
+	const currentUser = auth.currentUser;
+
+	if (currentUser) {
+		// User is signed in, see docs for a list of available properties
+		// https://firebase.google.com/docs/reference/js/auth.user
+		// ...
+		console.log(typeof currentUser.uid);
+	} else {
+		// No user is signed in.
+	}
 	return (
 		<View style={styles.mainContainer}>
 			<View style={styles.contactsContainer}>
 				{showForm ? (
-					<UserForm showForm={showForm} setShowForm={setShowForm} />
+					<UserForm
+						showForm={showForm}
+						setShowForm={setShowForm}
+						currentUser={currentUser}
+					/>
 				) : (
 					<UserList></UserList>
 				)}
@@ -42,7 +58,6 @@ const styles = StyleSheet.create({
 		flex: 14,
 		justifyContent: "center",
 		alignItems: "center",
-		color: "yellow",
 	},
 	buttonContainer: {
 		flex: 1,
