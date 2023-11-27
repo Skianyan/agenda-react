@@ -35,7 +35,7 @@ const Main = () => {
 						currentUser={currentUser}
 					/>
 				) : (
-					<UserList></UserList>
+					<UserList currentUser={currentUser}></UserList>
 				)}
 			</View>
 

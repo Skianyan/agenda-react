@@ -8,12 +8,17 @@ import {
 } from "react-native";
 import React, { Component, useEffect, useState } from "react";
 import { FIRESTORE_DB } from "../utils/firebase";
-import { addDoc, collection, onSnapshot } from "firebase/firestore";
+import { doc, deleteDoc, collection, onSnapshot } from "firebase/firestore";
 
-const UserList = () => {
+const UserList = ({ currentUser }) => {
 	const [users, setUsers] = useState([]);
+
+	const deleteContact = async (contact) => {
+		await deleteDoc(doc(FIRESTORE_DB, currentUser.uid, contact));
+	};
+
 	useEffect(() => {
-		const userRef = collection(FIRESTORE_DB, "contactos");
+		const userRef = collection(FIRESTORE_DB, currentUser.uid);
 		const subscriber = onSnapshot(userRef, {
 			next: (snapshot) => {
 				const users = [];
@@ -34,7 +39,7 @@ const UserList = () => {
 		<View style={styles.container}>
 			<>
 				<Text style={styles.titleCont}>Contacts</Text>
-				{users.length > 0 && (
+				{users.length > 0 ? (
 					<View style={styles.contactsCont}>
 						{users.map((user) => {
 							return (
@@ -42,9 +47,20 @@ const UserList = () => {
 									<Text style={styles.text}>Email: {user.email}</Text>
 									<Text style={styles.text}>Name: {user.name}</Text>
 									<Text style={styles.text}>Phone: {user.phone}</Text>
+									<Text style={styles.text}>Date: {user.date}</Text>
+									<View style={styles.contactsButtons}>
+										<Button
+											title="Delete"
+											onPress={() => deleteContact(user.id)}
+										></Button>
+									</View>
 								</View>
 							);
 						})}
+					</View>
+				) : (
+					<View style={styles.noContacts}>
+						<Text style={styles.text}>Add new contacts</Text>
 					</View>
 				)}
 			</>
@@ -65,6 +81,7 @@ const styles = StyleSheet.create({
 		backgroundColor: "#222",
 		gap: 10,
 		marginBottom: 25,
+		width: "90%",
 	},
 	titleCont: {
 		flex: 1,
@@ -79,6 +96,17 @@ const styles = StyleSheet.create({
 		color: "white",
 		padding: 10,
 		borderRadius: 15,
+	},
+	noContacts: {
+		color: "white",
+		padding: 10,
+		borderRadius: 15,
+		justifyContent: "center",
+		alignItems: "center",
+		height: "100%",
+	},
+	contactsButtons: {
+		width: "50%",
 	},
 	text: {
 		color: "white",

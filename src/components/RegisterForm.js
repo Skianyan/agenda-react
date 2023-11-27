@@ -31,7 +31,7 @@ const RegisterForm = ({ show, setShow }) => {
 				console.log("email incorrecto");
 				setErrores({ errorCorreo: true });
 			}
-			if (formData.password != formData.repeatPassword) {
+			if (formData.password !== formData.repeatPassword) {
 				console.log("password incorrecto");
 				setErrores({ errorPassword: true });
 			}
