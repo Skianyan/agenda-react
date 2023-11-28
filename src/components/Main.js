@@ -21,7 +21,7 @@ const Main = () => {
 		// User is signed in, see docs for a list of available properties
 		// https://firebase.google.com/docs/reference/js/auth.user
 		// ...
-		console.log(typeof currentUser.uid);
+		//console.log(typeof currentUser.uid);
 	} else {
 		// No user is signed in.
 	}

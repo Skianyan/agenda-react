@@ -21,7 +21,17 @@ const Auth = () => {
 	const iniciarSesion = () => {
 		firebase
 			.auth()
-			.signInWithEmailAndPassword(dataLogin.email, dataLogin.password);
+			.signInWithEmailAndPassword(dataLogin.email, dataLogin.password)
+			.then((userCredential) => {
+				// Signed in
+				const user = userCredential.user;
+				// ...
+			})
+			.catch((error) => {
+				const errorCode = error.code;
+				const errorMessage = error.message;
+				alert(errorCode, errorMessage);
+			});
 	};
 	return (
 		<>
@@ -41,6 +51,7 @@ const Auth = () => {
 								secureTextEntry={false}
 								autoCapitalize="none"
 								autoCorrect={false}
+								keyboardType="email-address"
 							/>
 							<TextInput
 								placeholder="Password"

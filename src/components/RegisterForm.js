@@ -20,7 +20,33 @@ const RegisterForm = ({ show, setShow }) => {
 		errorCorreo: false,
 		errorPassword: false,
 	});
+	const validateForm = () => {
+		var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+		if (!emailRegex.test(formData.email)) {
+			alert("Invalid email format");
+			return;
+		}
 
+		// Validate password length
+		if (formData.password.length < 8) {
+			alert("Password must be at least 8 characters long");
+			return;
+		}
+
+		// Validate if password and repeat password match
+		if (formData.password !== formData.repeatPassword) {
+			alert("Passwords do not match");
+			return;
+		}
+
+		// If all validations pass, you can submit the form or perform further actions
+		firebase
+			.auth()
+			.createUserWithEmailAndPassword(formData.email, formData.password);
+		alert("Account created successfully!");
+	};
+
+	/* old validation
 	const validarDatos = () => {
 		if (
 			formData.email != "" &&
@@ -46,7 +72,7 @@ const RegisterForm = ({ show, setShow }) => {
 				errorPassword: true,
 			});
 		}
-	};
+	}; */
 
 	return (
 		<>
@@ -88,7 +114,7 @@ const RegisterForm = ({ show, setShow }) => {
 					/>
 				</View>
 				<View style={styles.buttonContainer}>
-					<TouchableOpacity style={styles.smallInput} onPress={validarDatos}>
+					<TouchableOpacity style={styles.smallInput} onPress={validateForm}>
 						<Text style={styles.text}>Register</Text>
 					</TouchableOpacity>
 

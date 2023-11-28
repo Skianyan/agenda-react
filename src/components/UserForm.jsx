@@ -37,7 +37,7 @@ const UserForm = ({ showForm, setShowForm, currentUser }) => {
 			email: email,
 			date: date.toDateString(),
 		});
-		console.log(user);
+		//console.log(user);
 	};
 
 	const onDateChange = (e, selectedDate) => {
@@ -70,7 +70,8 @@ const UserForm = ({ showForm, setShowForm, currentUser }) => {
 				["phone"]: true,
 			});
 		}
-		if (isValid.name && isValid.phone && isValid.email) addUser();
+		if (isValid.name && isValid.phone && isValid.email)
+			addUser() && setShowForm(!showForm);
 	};
 
 	return (
@@ -103,6 +104,7 @@ const UserForm = ({ showForm, setShowForm, currentUser }) => {
 					secureTextEntry={false}
 					autoCapitalize="none"
 					autoCorrect={false}
+					keyboardType="number-pad"
 				/>
 				{!isValid.phone && (
 					<Text style={styles.errorText}>
@@ -119,6 +121,7 @@ const UserForm = ({ showForm, setShowForm, currentUser }) => {
 					secureTextEntry={false}
 					autoCapitalize="none"
 					autoCorrect={false}
+					keyboardType="email-address"
 				/>
 				{!isValid.email && (
 					<Text style={styles.errorText}>Please enter a valid email</Text>
